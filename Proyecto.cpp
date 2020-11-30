@@ -2,10 +2,58 @@
 //
 
 #include <iostream>
+#include "Articulo.h"
+#include "Articulos.h"
+Articulos* articulos = new Articulos();
+
+bool agregarArticulo() {
+	int codigo;
+	std::string descripcion;
+	int precio;
+	int cantidad;
+
+	std::cout << "Ingrese el codigo del nuevo producto: " << std::endl;
+	std::cin >> codigo;
+
+	if (codigo == 0) {
+		std::cout << "El codigo del producto deben ser solo numeros mayores a 0. " << std::endl;
+		return false;
+	}
+		
+
+	std::cout << "Ingrese la descripcion del nuevo producto: "<< std::endl;
+	// No logro hacer que se lea la descripcion
+	std::getline(std::cin, descripcion);
+
+	std::cout << "Ingrese el precio del nuevo producto: " << std::endl;
+	std::cin >> precio;
+
+	if (precio == 0) {
+		std::cout << "El precio del producto deben ser solo numeros mayores a 0. " << std::endl;
+		return false;
+	}
+
+	std::cout << "Ingrese la cantidad en numeros de "<< descripcion << " en bodega: " << std::endl;
+	std::cin >> cantidad;
+
+	Articulo* articulo = new Articulo(codigo, descripcion, precio, cantidad);
+
+	articulos->AgregarArticulo(articulo);
+	return true;
+}
+
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	agregarArticulo();
+	agregarArticulo();
+	agregarArticulo();
+	agregarArticulo();
+	agregarArticulo();
+	agregarArticulo();
+
+	articulos->DesplegarArticulo();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

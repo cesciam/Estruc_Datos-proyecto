@@ -8,7 +8,7 @@
 
 using namespace std;
 
-/*
+
 Articulos* articulos = new Articulos();
 
 bool agregarArticulo() {
@@ -46,13 +46,13 @@ bool agregarArticulo() {
 	articulos->AgregarArticulo(articulo);
 	return true;
 }
-*/
 
-string descripcion;
+
+std::string descripcion;
 
 int main()
 {
-	/*
+	
 	agregarArticulo();
 	agregarArticulo();
 	agregarArticulo();
@@ -62,13 +62,13 @@ int main()
 
 	articulos->DesplegarArticulo();
 
-	*/	
+	
 
 	// CATEGORIAS
 	ListaCategorias *ListaCat = new ListaCategorias;
 
-	cout << "Digite la descripcion de la categoria" << endl;
-    cin >> descripcion;
+	std::cout << "Digite la descripcion de la categoria" << std::endl;
+    std::cin >> descripcion;
 	ListaCat->agregarCategoria(descripcion);
 	ListaCat->desplegarListaCategorias();
 

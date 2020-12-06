@@ -4,6 +4,7 @@ class Categoria {
 
 private:
     std::string descripcion;
+
     Categoria *ante;
     Categoria *sgte;
 
@@ -13,12 +14,13 @@ public:
     ~Categoria();
 
     #pragma region Gets and sets
-    std::string getCategoria();
-    Categoria *getAnte;
-    Categoria *getSgte;
+    std::string getDescripcion();
+    Categoria* getAnte();
+    Categoria* getSgte();
 
-    void setCategoria(std::string);
-    void setAnte(Categoria *);
-    void setSgte(Categoria *);
+    void setDescripcion(std::string descripcion);
+    void setAnte(Categoria * categoria);
+    void setSgte(Categoria * categoria);
 
+#pragma endregion
 };

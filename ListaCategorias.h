@@ -14,10 +14,10 @@ public:
     int getLargo();
 
 
-    void setCab(Categoria *);
+    void setCab(Categoria* categoria);
     void setLargo(int);
 
-    void agregarCategoria(std::string);
+    void agregarCategoria(std::string nuevo);
     void modificarCategoria(std::string, std::string);
     void agregarArticuloACategoria(std::string, std::string);
     bool eliminarCategoria(std::string);

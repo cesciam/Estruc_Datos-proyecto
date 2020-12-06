@@ -36,7 +36,7 @@ void ListaCategorias::agregarCategoria(std::string pdescripcion) {
     setCab(nueva);
     largo++;
 }
-
+/*
 void ListaCategorias::modificarCategoria(std::string ref, std::string pdescripcion) {
 
 }
@@ -48,16 +48,17 @@ void ListaCategorias::agregarArticuloACategoria(std::string particulo, std::stri
 bool ListaCategorias::eliminarCategoria(std::string pdescripcion) {
 
 }
-
+*/
 void ListaCategorias::desplegarListaCategorias() {
     Categoria *aux = getCab();
     while (aux!= NULL)
     {
-        std::cout << aux->getCategoria() << std::endl;
+        std::cout << aux->getDescripcion() << std::endl;
         aux = aux->getSgte();
     }
 }
-
+/*
 void ListaCategorias::desplegarArticulosCategoria(std::string pdescripcion) {
 
 }
+*/

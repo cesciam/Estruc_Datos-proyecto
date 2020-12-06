@@ -1,20 +1,21 @@
 #include "Categoria.h"
 
 Categoria::Categoria(){
+
     this->descripcion = " ";
-    this->sgte = NULL;
-    this->ante = NULL;
+
+    this->sgte = nullptr;
+    this->ante = nullptr;
 }
 
 Categoria::~Categoria(){}
 
 Categoria::Categoria(std::string pdescripcion){
     this->descripcion = pdescripcion;
-    this->sgte = NULL;
-    this->ante = NULL;
+    
 }
 
-std::string Categoria::getCategoria(){
+std::string Categoria::getDescripcion(){
     return this->descripcion;
 }
 
@@ -26,7 +27,7 @@ Categoria *Categoria::getAnte(){
     return this->ante;
 }
 
-void Categoria::setCategoria(std::string pdescripcion){
+void Categoria::setDescripcion(std::string pdescripcion){
     this->descripcion = pdescripcion;
 }
 

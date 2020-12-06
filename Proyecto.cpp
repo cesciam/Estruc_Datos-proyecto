@@ -1,9 +1,14 @@
 // Proyecto.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include <iostream>
 #include "Articulo.h"
 #include "Articulos.h"
+#include "Categoria.h"
+#include "ListaCategorias.h"
+
+using namespace std;
+
+/*
 Articulos* articulos = new Articulos();
 
 bool agregarArticulo() {
@@ -41,11 +46,13 @@ bool agregarArticulo() {
 	articulos->AgregarArticulo(articulo);
 	return true;
 }
+*/
 
-
+string descripcion;
 
 int main()
 {
+	/*
 	agregarArticulo();
 	agregarArticulo();
 	agregarArticulo();
@@ -54,6 +61,18 @@ int main()
 	agregarArticulo();
 
 	articulos->DesplegarArticulo();
+
+	*/	
+
+	// CATEGORIAS
+	ListaCategorias *ListaCat = new ListaCategorias;
+
+	cout << "Digite la descripcion de la categoria" << endl;
+    cin >> descripcion;
+	ListaCat->agregarCategoria(descripcion);
+	ListaCat->desplegarListaCategorias();
+
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

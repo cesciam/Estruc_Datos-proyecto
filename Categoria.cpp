@@ -1,8 +1,12 @@
 #include "Categoria.h"
+#include <cstring>
+#include <iostream>
+
+using namespace std;
 
 Categoria::Categoria(){
 
-    this->descripcion = " ";
+    strcpy(descripcion, "");
 
     this->sgte = nullptr;
     this->ante = nullptr;
@@ -10,12 +14,13 @@ Categoria::Categoria(){
 
 Categoria::~Categoria(){}
 
-Categoria::Categoria(std::string pdescripcion){
-    this->descripcion = pdescripcion;
+Categoria::Categoria(char pdescripcion[50]){
+
+    strcpy(this->descripcion, pdescripcion);
     
 }
 
-std::string Categoria::getDescripcion(){
+char * Categoria::getDescripcion(){
     return this->descripcion;
 }
 
@@ -27,8 +32,9 @@ Categoria *Categoria::getAnte(){
     return this->ante;
 }
 
-void Categoria::setDescripcion(std::string pdescripcion){
-    this->descripcion = pdescripcion;
+void Categoria::setDescripcion(char pdescripcion[50]){
+
+    strcpy(this->descripcion, pdescripcion);
 }
 
 void Categoria::setSgte(Categoria *ptr){
@@ -38,3 +44,5 @@ void Categoria::setSgte(Categoria *ptr){
 void Categoria::setAnte(Categoria *ptr){
     this->ante = ptr;
 }
+
+

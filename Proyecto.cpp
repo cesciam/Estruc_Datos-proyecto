@@ -1,45 +1,68 @@
 // Proyecto.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+
 #include <iostream>
 #include "Articulo.h"
 #include "Articulos.h"
-#include "Categoria.h"
-#include "ListaCategorias.h"
+#include <string>
+Articulos* articulos = new Articulos();
 
 using namespace std;
 
+Articulo* verificarCod(int tipo) {
+	int codigo;
+	string tipoOperac = tipo == 1 ? "editar" : "eliminar";
+	cout << "Ingrese el codigo del articulo que desea " << tipoOperac  <<": " << endl;
+	cin >> codigo;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-Articulos* articulos = new Articulos();
+	if (codigo == 0) {
+		cout << "El codigo del articulo deben ser solo numeros mayores a 0. " << endl;
+		return nullptr;
+	}
+
+	Articulo* articulo = articulos->existeArticulo(codigo);
+
+	if (articulo == nullptr) {
+		cout << "El articulo no se encuentra registrado." << endl;
+		return nullptr;
+	}
+
+	return articulo;
+}
 
 bool agregarArticulo() {
 	int codigo;
-	std::string descripcion;
+	char descripcion[50];
 	int precio;
 	int cantidad;
 
-	std::cout << "Ingrese el codigo del nuevo producto: " << std::endl;
-	std::cin >> codigo;
+	cout << "Ingrese el codigo del nuevo articulo: " << endl;
+	cin >> codigo;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 	if (codigo == 0) {
-		std::cout << "El codigo del producto deben ser solo numeros mayores a 0. " << std::endl;
+		cout << "El codigo del articulo deben ser solo numeros mayores a 0. " << endl;
 		return false;
 	}
 		
 
-	std::cout << "Ingrese la descripcion del nuevo producto: "<< std::endl;
-	// No logro hacer que se lea la descripcion
-	std::getline(std::cin, descripcion);
+	cout << "Ingrese la descripcion del nuevo articulo: "<< endl;
+	cin.get(descripcion, sizeof(descripcion));
 
-	std::cout << "Ingrese el precio del nuevo producto: " << std::endl;
-	std::cin >> precio;
+	cout << "Ingrese el precio del nuevo articulo: " << endl;
+	cin >> precio;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 
 	if (precio == 0) {
-		std::cout << "El precio del producto deben ser solo numeros mayores a 0. " << std::endl;
+		cout << "El precio del articulo deben ser solo numeros mayores a 0. " << endl;
 		return false;
 	}
 
-	std::cout << "Ingrese la cantidad en numeros de "<< descripcion << " en bodega: " << std::endl;
-	std::cin >> cantidad;
+	cout << "Ingrese la cantidad en numeros de "<< descripcion << " en bodega: " << endl;
+	cin >> cantidad;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 	Articulo* articulo = new Articulo(codigo, descripcion, precio, cantidad);
 
@@ -47,41 +70,97 @@ bool agregarArticulo() {
 	return true;
 }
 
+bool modificarArticulo() {
+	char descripcion[50];
+	int precio;
 
-std::string descripcion;
+	Articulo* modificado = verificarCod(1);
+	if (modificado == nullptr)
+		return false;
+
+	cout << "Ingrese la nueva descripcion del articulo: " << endl;
+	cin.get(descripcion, sizeof(descripcion));
+
+	cout << "Ingrese el nuevo precio del articulo: " << endl;
+	cin >> precio;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+
+	modificado->setDescripcion(descripcion);
+	modificado->setPrecio(precio);
+
+
+	articulos->modificar(modificado);
+
+	modificado->mostrar();
+
+	return true;
+}
+
+bool modificarExistencia() {
+	int cantidad;
+
+	Articulo* modificado = verificarCod(1);
+	if (modificado == nullptr)
+		return false;
+
+	cout << "Ingrese la nueva cantidad (en numeros) de " << modificado->getDescripcion() << " en bodega: " << endl;
+	cin >> cantidad;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	modificado->setCantidad(cantidad);
+
+	modificado->mostrar();
+	return true;
+}
+
+bool eliminarArticulo() {
+	Articulo* modificado = verificarCod(2);
+	if (modificado == nullptr)
+		return false;
+
+	articulos->eliminar(modificado);
+
+
+	articulos->DesplegarArticulo();
+	return true;
+}
+
+void actualizarPreciosPorcentual() {
+	int porcentaje;
+	int signo;
+
+	
+	cout << "Desea sumar o restar el porcentaje?" << endl;
+	cout << "1. Sumar" << endl;
+	cout << "2. Restar" << endl;
+	cin >> signo;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	if (signo != 1 && signo != 2) {
+		cout << "Opción incorrecta. Por favor ingrese (1) o (2)." << endl;
+		return;
+	}
+
+	cout << "Ingrese el porcentaje a aplicar: " << endl;
+	cin >> porcentaje;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	if (porcentaje == 0 || porcentaje < 0) {
+		cout << "El codigo del articulo deben ser solo numeros mayores a 0. " << endl;
+		return;
+	}
+
+	articulos->actualizarPrecios(signo, porcentaje);
+
+	articulos->DesplegarArticulo();
+}
+
 
 int main()
 {
-	
-	agregarArticulo();
-	agregarArticulo();
-	agregarArticulo();
-	agregarArticulo();
-	agregarArticulo();
-	agregarArticulo();
-
-	articulos->DesplegarArticulo();
 
 	
-
-	// CATEGORIAS
-	ListaCategorias *ListaCat = new ListaCategorias;
-
-	std::cout << "Digite la descripcion de la categoria" << std::endl;
-    std::cin >> descripcion;
-	ListaCat->agregarCategoria(descripcion);
-	ListaCat->desplegarListaCategorias();
-
-
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

@@ -3,22 +3,22 @@
 class Categoria {
 
 private:
-    std::string descripcion;
+    char descripcion[50];
 
-    Categoria *ante;
     Categoria *sgte;
+    Categoria *ante;
 
 public:
     Categoria();
-    Categoria(std::string);
+    Categoria(char descripcion[50]);
     ~Categoria();
 
     #pragma region Gets and sets
-    std::string getDescripcion();
+    char * getDescripcion();
     Categoria* getAnte();
     Categoria* getSgte();
 
-    void setDescripcion(std::string descripcion);
+    void setDescripcion(char descripcion[50]);
     void setAnte(Categoria * categoria);
     void setSgte(Categoria * categoria);
 

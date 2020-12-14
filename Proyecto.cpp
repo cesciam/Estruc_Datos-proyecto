@@ -1,10 +1,14 @@
-// Proyecto.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 #include "Articulo.h"
 #include "Articulos.h"
 #include <string>
+#include "Categoria.h"
+#include "ListaCategorias.h"
+
+using namespace std;
+
+
 Articulos* articulos = new Articulos();
 
 using namespace std;
@@ -138,7 +142,7 @@ void actualizarPreciosPorcentual() {
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 	if (signo != 1 && signo != 2) {
-		cout << "Opción incorrecta. Por favor ingrese (1) o (2)." << endl;
+		cout << "Opciï¿½n incorrecta. Por favor ingrese (1) o (2)." << endl;
 		return;
 	}
 
@@ -156,11 +160,11 @@ void actualizarPreciosPorcentual() {
 	articulos->DesplegarArticulo();
 }
 
+std::string descripcion;
 
 int main()
 {
 
-	
 }
 
 

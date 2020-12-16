@@ -37,6 +37,7 @@ public:
 	void setAnte(Articulo* articulo);
 
 	void mostrar();
+	void mostrarEstat();
 
 #pragma endregion
 	

@@ -26,6 +26,7 @@ public:
 	void agregarAntes(Articulo* nuevo, Articulo* aux);
 
 	Articulo* existeArticulo(int codigo);
+	Articulo* existeArticulo(char nombre[50]);
 
 	bool modificar(Articulo* modificado);
 
@@ -34,5 +35,13 @@ public:
 	void eliminar(Articulo* artic);
 
 	void actualizarPrecios(int signo, int porcentaje);
+
+	double totalInventario();
+
+	int productosAgotados(bool imprimir);
+
+	void inventarioDisponible();
+
+	void imprimirDescendente();
 };
 

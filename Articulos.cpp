@@ -141,6 +141,23 @@ Articulo* Articulos::existeArticulo(int codigo)
 	return nullptr;
 }
 
+Articulo* Articulos::existeArticulo(char nombre[50])
+{
+	Articulo* aux = getCab();
+
+	if (!esVacia()) {
+		do {
+			if (strcmp(aux->getDescripcion(), nombre) == 0)
+				return aux;
+
+			aux = aux->getSgte();
+		} while (aux != getCab());
+	}
+	
+
+	return nullptr;
+}
+
 bool Articulos::modificar(Articulo* modificado)
 {
 	desligar(modificado);
@@ -180,8 +197,7 @@ void Articulos::actualizarPrecios(int signo, int porcentaje)
 	double porc = (int)porcentaje;
 	if (signo == 1) { //Suma porcentaje
 		Articulo* aux = getCab();
-		
-
+	
 		do {
 			double precio = aux->getPrecio();
 			double nuevoPrecio = precio + precio * (porc / 100);
@@ -203,4 +219,78 @@ void Articulos::actualizarPrecios(int signo, int porcentaje)
 	}
 	
 }
+
+double Articulos::totalInventario()
+{
+	double precio = 0.0;
+
+	Articulo* aux = getCab();
+	if (!esVacia()) {
+		do {
+			precio += aux->getPrecio() * aux->getCantidad();
+
+			aux = aux->getSgte();
+		} while (aux != getCab());
+		
+	}
+
+	return precio;
+}
+
+int Articulos::productosAgotados(bool imprimir)
+{
+	int cantidad = 0;
+	Articulo* aux = getCab();
+	if (imprimir)
+		cout << "******Articulos agotados***************" << endl;
+
+	if (!esVacia()) {
+		do {
+			if (aux->getCantidad() == 0) {
+				cantidad += 1;
+				if (imprimir)
+					aux->mostrar();
+			}
+			aux = aux->getSgte();
+		} while (aux != getCab());
+
+	}
+	return cantidad;
+}
+
+void Articulos::inventarioDisponible()
+{
+	Articulo* aux = getCab();
+	cout << "******Articulos en disponibles***************" << endl;
+	if (!esVacia()) {
+		do {
+			if (aux->getCantidad() > 0) {
+				aux->mostrar();
+			}
+			aux = aux->getSgte();
+		} while (aux != getCab());
+
+	}
+}
+
+void Articulos::imprimirDescendente()
+{
+
+	Articulo* aux = getCab()->getAnte();;
+	if (!esVacia()) {
+		cout << "** ================================== **" << endl;
+		cout << "** =====Lista articulos============== **" << endl;
+		do {
+			aux->mostrar();
+
+			aux = aux->getAnte();
+		} while (aux != getCab()->getAnte());
+		cout << "** =====Fin lista articulos========== **" << endl;
+		cout << "** ================================== **" << endl;
+	}
+}
+
+
+
+
 

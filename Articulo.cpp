@@ -104,3 +104,15 @@ void Articulo::mostrar()
 	cout << "Estatus: " << getEstatus() << endl;
 	cout << "***************************************** " <<endl;
 }
+
+void Articulo::mostrarEstat()
+{
+	cout << "***************************************** " << endl;
+	cout << "Codigo: " << getCodigo() << endl;
+	cout << "Descripcion: " << getDescripcion() << endl;
+	cout << "Precio: " << getPrecio() << endl;
+	cout << "Cantidad: " << getCantidad() << endl;
+	if(getCantidad() == 0)
+		cout << "Estatus: " << getEstatus() << endl;
+	cout << "***************************************** " << endl;
+}

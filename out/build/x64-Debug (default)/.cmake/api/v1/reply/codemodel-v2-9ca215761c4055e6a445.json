@@ -1,0 +1,59 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Estruc_Datos-proyecto",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Estruc_Datos-proyecto::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Estruc_Datos-proyecto-Debug-e4a8e568e6ed4e6c9df1.json",
+					"name" : "Estruc_Datos-proyecto",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/xcort/Documents/GitHub/Estruc_Datos-proyecto/out/build/x64-Debug (default)",
+		"source" : "C:/Users/xcort/Documents/GitHub/Estruc_Datos-proyecto"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

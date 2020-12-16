@@ -24,9 +24,13 @@ public:
 
 
     bool agregarCategoria(Categoria *pnuevo);
-    bool modificarCategoria(Categoria* modificado);
+    bool modificarCategoria(Categoria* ref, Categoria* modificado);
     void eliminarCategoria(Categoria* peliminar);
     void desplegarListaCategorias();
+
+    Categoria *dirUltimo();
+    Categoria* dirAnterior(Categoria *x);
+    Categoria* dirNodo(Categoria *ref);
 
     void agregarArticuloACategoria(std::string, std::string);
     void desplegarArticulosCategoria(std::string);

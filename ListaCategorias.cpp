@@ -32,54 +32,86 @@ bool ListaCategorias::esVacia() {
 }
 
 void ListaCategorias::agregarAntesDe(Categoria * pnueva, Categoria * ref) {
-    pnueva->setSgte(ref);
-    pnueva->setSgte(ref->getAnte());
+    
 
-    ref->getAnte()->setSgte(pnueva);
-    ref->setAnte(pnueva);
-    largo ++;
+    pnueva->setSgte(ref); // PASO #2
+    pnueva->setAnte(ref->getAnte()); // PASO #2
+
+    ref->getAnte()->setSgte(pnueva); // PASO #3
+    ref->setAnte(pnueva); // PASO #3
+    largo++;
+   
 }
+
+Categoria *ListaCategorias::dirUltimo() {
+    Categoria* aux = getCab();
+
+    while (aux->getSgte() != NULL) {
+        aux = aux->getSgte();
+    }
+    return aux;
+}
+
+Categoria* ListaCategorias::dirAnterior(Categoria* x) {
+
+    Categoria* aux = dirNodo(x);
+    if (aux == NULL) {
+        return NULL;
+    }
+    else {
+        return aux->getAnte();
+    }
+
+}
+
+Categoria* ListaCategorias::dirNodo(Categoria* dRef) {
+    Categoria* aux = NULL;
+    bool encontrado = false;
+
+    if (!esVacia()) {
+        aux = getCab();
+        while (aux != NULL && !encontrado) {
+            if (aux == dRef)
+                encontrado = true;
+            else
+                aux = aux->getSgte();
+        }
+        return aux;
+    }
+}
+
 
 void ListaCategorias::agregarDespuesDe(Categoria *pnueva, Categoria *ref) {
 
-    pnueva->setAnte(ref);
-    pnueva->setSgte(ref->getSgte());
-    if (ref->getSgte() != NULL){
-        ref->getSgte()->setAnte(pnueva);
-    }
-    ref->setSgte(pnueva);
-    largo ++;
+    Categoria* aux = dirUltimo();
+    pnueva->setAnte(aux);
+    aux->setSgte(pnueva);
+
+    largo++;
 
 }
 
-void ListaCategorias::desligar(Categoria* paux)
-{
+void ListaCategorias::desligar(Categoria* paux) {
     Categoria* quitar = paux;
+    Categoria* ult = dirUltimo();
     if (quitar == getCab()) { // Es la cabeza
-        Categoria* aux = getCab();
-
-        aux->getSgte()->setAnte(aux->getAnte());
-        aux->getAnte()->setSgte(aux->getSgte());
-
-        setCab(aux->getSgte());
+        quitar->getSgte()->setAnte(NULL);
     }
-    else { // Es el ultimo
+     else if (quitar != ult){
         quitar->getAnte()->setSgte(quitar->getSgte());
         quitar->getSgte()->setAnte(quitar->getAnte());
-    }
 
-
+        } else {
+        quitar->getAnte()->setAnte(NULL);
+        }
 }
 
 
 bool ListaCategorias::agregarCategoria(Categoria *pnueva) {
 
-    Categoria *nueva;
-    if (getCab()!=NULL) {
-        nueva = pnueva;
+    Categoria *nueva = pnueva;
+    if (esVacia()) {
         setCab(nueva);
-        nueva->setAnte(nueva);
-        nueva->setSgte(nueva);
         largo++;
         return true;
 
@@ -87,10 +119,18 @@ bool ListaCategorias::agregarCategoria(Categoria *pnueva) {
         Categoria *aux = getCab();
         int valueCmp = strcmp(aux->getDescripcion(),nueva->getDescripcion());
         if (valueCmp==0){
-            agregarAntesDe(nueva,aux);
+        
+            cab->setAnte(nueva); //A  la cabeza le pone como anterior al nuevo
+            nueva->setSgte(cab); // al nuevo le pone como siguiente la cabeza
+            setCab(nueva);   // set cab nuevo
             return true;
+
         } else if (valueCmp > 0){
-            agregarAntesDe(nueva, aux);
+
+            cab->setAnte(nueva); //A  la cabeza le pone como anterior al nuevo
+            nueva->setSgte(cab);  // al nuevo le pone como siguiente la cabeza
+            setCab(nueva); // set cabe nuevo
+
             if (valueCmp >0)
                 setCab(nueva);
             return true;
@@ -106,22 +146,23 @@ bool ListaCategorias::agregarCategoria(Categoria *pnueva) {
         } if (valueCmp<0){
             aux=getCab();
             agregarDespuesDe(nueva,aux);
+
             return true;
         }
     }
     return false;
 }
 
-bool ListaCategorias::modificarCategoria(Categoria *modificado) {
+bool ListaCategorias::modificarCategoria(Categoria *ref, Categoria* modificado) {
 
-    desligar(modificado);
+    desligar(ref);
     return agregarCategoria(modificado);
 }
 
-void ListaCategorias::eliminarCategoria(Categoria* peliminar) {
+void ListaCategorias::eliminarCategoria(Categoria* preliminar) {
 
-    desligar(peliminar);
-    delete peliminar;
+    desligar(preliminar);
+    delete preliminar;
 
 }
 
@@ -136,7 +177,7 @@ void ListaCategorias::desplegarListaCategorias() {
 
     if (!esVacia()){
         cout << "** ================================== **" << endl;
-        cout << "** =========Lista categorías========= **" << endl;
+        cout << "** =========Lista categorias========= **" << endl;
 
         while (aux!= NULL)
         {
@@ -144,7 +185,7 @@ void ListaCategorias::desplegarListaCategorias() {
             std::cout << aux->getDescripcion() << std::endl;
             aux = aux->getSgte();
         }
-        cout << "** =======Fin lista categorías======= **" << endl;
+        cout << "** =======Fin lista categorias======= **" << endl;
         cout << "** ================================== **" << endl;
     }
 }

@@ -6,7 +6,7 @@ using namespace std;
 
 Categoria::Categoria(){
 
-    strcpy(descripcion, "");
+    strcpy_s(descripcion, "");
 
     this->sgte = nullptr;
     this->ante = nullptr;
@@ -16,7 +16,7 @@ Categoria::~Categoria(){}
 
 Categoria::Categoria(char pdescripcion[50]){
 
-    strcpy(this->descripcion, pdescripcion);
+    strcpy_s(this->descripcion, pdescripcion);
     
 }
 
@@ -34,7 +34,7 @@ Categoria *Categoria::getAnte(){
 
 void Categoria::setDescripcion(char pdescripcion[50]){
 
-    strcpy(this->descripcion, pdescripcion);
+    strcpy_s(this->descripcion, pdescripcion);
 }
 
 void Categoria::setSgte(Categoria *ptr){

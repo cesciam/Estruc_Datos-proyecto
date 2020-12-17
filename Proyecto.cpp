@@ -4,10 +4,14 @@
 #include <iostream>
 #include "Articulo.h"
 #include "Articulos.h"
-#include <string>
+#include "Categoria.h"
+#include "ListaCategorias.h"
+
 Articulos* articulos = new Articulos();
+ListaCategorias* ListaCat = new ListaCategorias();
 
 using namespace std;
+
 
 Articulo* verificarCod(int tipo) {
 	int codigo;
@@ -157,10 +161,149 @@ void actualizarPreciosPorcentual() {
 }
 
 
-int main()
-{
+//CATEGORIAS
 
+void menuCategorias() {
+	int opcion = -1;
+	do {
+		cout << "*********** " << endl;
+		cout << "**Menu de categorias***** " << endl;
+		cout << "1. Agregar una categoria. " << endl;
+		cout << "2. Modificar una categoria. " << endl;
+		cout << "3. Agregar un articulo a una categoria. " << endl;
+		cout << "4. Eliminar una categoria. " << endl;
+		cout << "5. Desplegar la lista de categorias. " << endl;
+		cout << "6. Desplegar los articulos de una categoría en específica. " << endl;
+		cout << "7. Salir. " << endl;
+		cout << "Ingrese su opcion: " << endl;
+		cin >> opcion;
+
+		switch (opcion)
+		{
+		case 1: {
+			char descripcion[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			cout << "*********** " << endl;
+			cout << "**Agregar una categoría***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese la descripcion de la nueva categoria: " << endl;
+			cin.get(descripcion, sizeof(descripcion));
+			
+
+			Categoria* categ = new Categoria(descripcion);
+
+			ListaCat->agregarCategoria(categ);
+			break;
+		}
+
+		case 2: { //DA ERROR, PENDIENTE DE SOLUCIONAR
+			char ref[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			char modificar[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			cout << "*********** " << endl;
+			cout << "**Modificar una categoría***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese la descripcion que desea modificar: " << endl;
+			cin.get(ref, sizeof(ref));
+			cout << "Ingrese la descripcion correcta: " << endl;
+			cin.get(modificar, sizeof(modificar));
+
+
+			Categoria* categ = new Categoria(ref, modificar);
+
+			ListaCat->modificarCategoria(categ);
+			break;
+		}
+
+		case 3: { //PENDIENTE DE HACER
+
+			cout << "*********** " << endl;
+			cout << "**Agregar un articulo a una categoria***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese el codigo del articulo a ingresar: " << endl;
+			cout << "PENDIENTE DE HACER " << endl;
+
+			break;
+		}
+		case 4: { //DA ERROR, PENDIENTE DE SOLUCIONAR
+			
+			char eliminar[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+
+			cout << "*********** " << endl;
+			cout << "**Eliminar una categoria***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese la descripcion de la categoria a eliminar: " << endl;
+			cin.get(eliminar, sizeof(eliminar));
+
+
+			Categoria* categ = new Categoria(eliminar);
+
+			ListaCat->eliminarCategoria(categ);
+			break;
+
+		}
+		case 5: { 
+			char descripcion[50];
+
+			cout << "*********** " << endl;
+			cout << "**Desplegar la lista de categorias***** " << endl;
+			cout << "*********** " << endl;
+			
+			ListaCat->desplegarListaCategorias();
+			
+			break;
+		}
+		case 6: { //PENDIENTE DE HACER
 	
+			cout << "*********** " << endl;
+			cout << "**Desplegar los articulos de una categoría en específica***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese la categoría que desea desplegar: " << endl;
+			cout << "PENDIENTE DE HACER " << endl;
+		
+			
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	} while (opcion != 7);
 }
 
 
+int main()
+{
+
+	menuCategorias();
+	/*
+	ListaCategorias* ListaCat = new ListaCategorias();
+	
+
+
+		char descripcion[50] = "Arboles de navidad";
+		Categoria* categoria = new Categoria(descripcion);
+		ListaCat->agregarCategoria(categoria);
+		char descripcion1[50] = "Adornos de navidad";
+		categoria = new Categoria(descripcion1);
+		ListaCat->agregarCategoria(categoria);
+		char descripcion2[50] = "Regalos de navidad";
+		categoria = new Categoria(descripcion2);
+		ListaCat->agregarCategoria(categoria);
+		char descripcion3[50] = "Bufandas de navidad";
+		categoria = new Categoria(descripcion3);
+		ListaCat->agregarCategoria(categoria);
+		char descripcion4[50] = "Ropa de navidad";
+		categoria = new Categoria(descripcion4);
+		ListaCat->agregarCategoria(categoria);
+		
+		ListaCat->desplegarListaCategorias();
+	
+	*/
+}

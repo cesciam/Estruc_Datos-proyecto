@@ -5,6 +5,8 @@
 #include <string>
 #include "Categoria.h"
 #include "ListaCategorias.h"
+#include "ArticulosYCategorias.h"
+#include "ArticuloYCategoria.h"
 
 using namespace std;
 
@@ -12,6 +14,7 @@ using namespace std;
 #pragma region Funciones Articulos
 Articulos* articulos = new Articulos();
 ListaCategorias* ListaCat = new ListaCategorias();
+ArticulosYCategorias * listaayc = new ArticulosYCategorias();
 
 using namespace std;
 
@@ -209,6 +212,58 @@ Articulo* verificarNombre() {
 
 #pragma endregion
 
+#pragma region Categorias
+
+void articulosCategoria() {
+	int codigo;
+	cout << "Ingrese el codigo del articulo: " << endl;
+	cin >> codigo;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	Articulo* artic = articulos->existeArticulo(codigo);
+
+	if (artic == nullptr) {
+		cout << "No existe un articulo con el codigo digitado. " << endl;
+		return;
+	}
+
+	char nombreCat[50];
+	cout << "Ingrese el nombre de la categoria: " << endl;
+	cin >> nombreCat;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	Categoria* cat = ListaCat->verificarCat(nombreCat);
+
+	if(cat == nullptr) {
+		cout << "No existe una categoria con el nombre digitado. " << endl;
+		return;
+	}
+
+	ArticuloYCategoria* ayc = new ArticuloYCategoria(artic, cat);
+
+	listaayc->agregarayc(ayc);
+}
+
+void desplegarArticulosPorCat() {
+	char nombreCat[50];
+	cout << "Ingrese el nombre de la categotia: " << endl;
+	cin >> nombreCat;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	Categoria* cat = ListaCat->verificarCat(nombreCat);
+
+	if (cat == nullptr) {
+		cout << "No existe una categoria con el nombre digitado. " << endl;
+		return;
+	}
+
+	listaayc->desplegarArticulosCategoria(cat);
+
+}
+
+#pragma endregion
+
+
 #pragma region Menus
 
 void menuUsuario() {
@@ -248,7 +303,106 @@ void menuUsuario() {
 	} while (opcion != 3);
 
 }
+void menuCategorias() {
+	int opcion = -1;
+	do {
+		cout << "*********** " << endl;
+		cout << "**Menu de categorias***** " << endl;
+		cout << "1. Agregar una categoria. " << endl;
+		cout << "2. Modificar una categoria. " << endl;
+		cout << "3. Agregar un articulo a una categoria. " << endl;
+		cout << "4. Eliminar una categoria. " << endl;
+		cout << "5. Desplegar la lista de categorias. " << endl;
+		cout << "6. Desplegar los articulos de una categoría en específica. " << endl;
+		cout << "7. Salir. " << endl;
+		cout << "Ingrese su opcion: " << endl;
+		cin >> opcion;
 
+		switch (opcion)
+		{
+		case 1: {
+			char descripcion[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			cout << "*********** " << endl;
+			cout << "**Agregar una categoría***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese la descripcion de la nueva categoria: " << endl;
+			cin.get(descripcion, sizeof(descripcion));
+
+
+			Categoria* categ = new Categoria(descripcion);
+
+			ListaCat->agregarCategoria(categ);
+			break;
+		}
+
+		case 2: { //DA ERROR, PENDIENTE DE SOLUCIONAR
+			char ref[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			char modificar[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			cout << "*********** " << endl;
+			cout << "**Modificar una categoría***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese la descripcion que desea modificar: " << endl;
+			cin.get(ref, sizeof(ref));
+			cout << "Ingrese la descripcion correcta: " << endl;
+			cin.get(modificar, sizeof(modificar));
+
+
+			//Categoria* categ = new Categoria(ref, modificar);
+
+			//ListaCat->modificarCategoria(categ);
+			break;
+		}
+
+		case 3: { 
+			articulosCategoria();
+			break;
+		}
+		case 4: { //DA ERROR, PENDIENTE DE SOLUCIONAR
+
+			char eliminar[50];
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+
+			cout << "*********** " << endl;
+			cout << "**Eliminar una categoria***** " << endl;
+			cout << "*********** " << endl;
+			cout << "Ingrese la descripcion de la categoria a eliminar: " << endl;
+			cin.get(eliminar, sizeof(eliminar));
+
+
+			//Categoria* categ = new Categoria(eliminar);
+
+			//ListaCat->eliminarCategoria(categ);
+			break;
+
+		}
+		case 5: {
+			char descripcion[50];
+
+			cout << "*********** " << endl;
+			cout << "**Desplegar la lista de categorias***** " << endl;
+			cout << "*********** " << endl;
+
+			ListaCat->desplegarListaCategorias();
+
+			break;
+		}
+		case 6: { 
+			desplegarArticulosPorCat();
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	} while (opcion != 7);
+}
 void menuArticulos() {
 	int opcion;
 	do {
@@ -343,9 +497,9 @@ void menuReportes() {
 			articulos->DesplegarArticulo();
 		}
 		case 6:
-			cout << "Coming soon" << endl;
+			ListaCat->desplegarListaCategorias();
 		case 7: {
-			cout << "Coming soon" << endl;
+			desplegarArticulosPorCat();
 		}
 		default:
 			break;
@@ -372,7 +526,7 @@ void menuAdministrador() {
 		}
 
 		case 2: {
-			cout << "Cooming soon... " << endl;
+			menuCategorias();
 			break;
 		}
 		case 3: {
@@ -426,116 +580,4 @@ int main()
 
 }
 
-void menuCategorias() {
-	int opcion = -1;
-	do {
-		cout << "*********** " << endl;
-		cout << "**Menu de categorias***** " << endl;
-		cout << "1. Agregar una categoria. " << endl;
-		cout << "2. Modificar una categoria. " << endl;
-		cout << "3. Agregar un articulo a una categoria. " << endl;
-		cout << "4. Eliminar una categoria. " << endl;
-		cout << "5. Desplegar la lista de categorias. " << endl;
-		cout << "6. Desplegar los articulos de una categoría en específica. " << endl;
-		cout << "7. Salir. " << endl;
-		cout << "Ingrese su opcion: " << endl;
-		cin >> opcion;
 
-		switch (opcion)
-		{
-		case 1: {
-			char descripcion[50];
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-			cout << "*********** " << endl;
-			cout << "**Agregar una categoría***** " << endl;
-			cout << "*********** " << endl;
-			cout << "Ingrese la descripcion de la nueva categoria: " << endl;
-			cin.get(descripcion, sizeof(descripcion));
-
-
-			Categoria* categ = new Categoria(descripcion);
-
-			ListaCat->agregarCategoria(categ);
-			break;
-		}
-
-		case 2: { //DA ERROR, PENDIENTE DE SOLUCIONAR
-			char ref[50];
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			char modificar[50];
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-			cout << "*********** " << endl;
-			cout << "**Modificar una categoría***** " << endl;
-			cout << "*********** " << endl;
-			cout << "Ingrese la descripcion que desea modificar: " << endl;
-			cin.get(ref, sizeof(ref));
-			cout << "Ingrese la descripcion correcta: " << endl;
-			cin.get(modificar, sizeof(modificar));
-
-
-			Categoria* categ = new Categoria(ref, modificar);
-
-			ListaCat->modificarCategoria(categ);
-			break;
-		}
-
-		case 3: { //PENDIENTE DE HACER
-
-			cout << "*********** " << endl;
-			cout << "**Agregar un articulo a una categoria***** " << endl;
-			cout << "*********** " << endl;
-			cout << "Ingrese el codigo del articulo a ingresar: " << endl;
-			cout << "PENDIENTE DE HACER " << endl;
-
-			break;
-		}
-		case 4: { //DA ERROR, PENDIENTE DE SOLUCIONAR
-
-			char eliminar[50];
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-
-			cout << "*********** " << endl;
-			cout << "**Eliminar una categoria***** " << endl;
-			cout << "*********** " << endl;
-			cout << "Ingrese la descripcion de la categoria a eliminar: " << endl;
-			cin.get(eliminar, sizeof(eliminar));
-
-
-			Categoria* categ = new Categoria(eliminar);
-
-			ListaCat->eliminarCategoria(categ);
-			break;
-
-		}
-		case 5: {
-			char descripcion[50];
-
-			cout << "*********** " << endl;
-			cout << "**Desplegar la lista de categorias***** " << endl;
-			cout << "*********** " << endl;
-
-			ListaCat->desplegarListaCategorias();
-
-			break;
-		}
-		case 6: { //PENDIENTE DE HACER
-
-			cout << "*********** " << endl;
-			cout << "**Desplegar los articulos de una categoría en específica***** " << endl;
-			cout << "*********** " << endl;
-			cout << "Ingrese la categoría que desea desplegar: " << endl;
-			cout << "PENDIENTE DE HACER " << endl;
-
-
-			break;
-		}
-
-		default:
-			break;
-		}
-
-	} while (opcion != 7);
-}

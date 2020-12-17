@@ -1,4 +1,6 @@
 #include "Articulo.h"
+#include <iostream>
+using namespace std;
 
 Articulo::Articulo()
 {

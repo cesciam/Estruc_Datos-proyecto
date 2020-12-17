@@ -30,6 +30,12 @@
     <ClCompile Include="ListaCategorias.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArticuloYCategoria.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArticulosYCategorias.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Articulo.h">
@@ -42,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListaCategorias.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArticuloYCategoria.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArticulosYCategorias.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

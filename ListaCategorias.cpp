@@ -80,6 +80,23 @@ Categoria* ListaCategorias::dirNodo(Categoria* dRef) {
     }
 }
 
+Categoria* ListaCategorias::verificarCat(char descripcion[50])
+{
+    Categoria* aux = getCab();
+
+    if (!esVacia()) {
+        do {
+            if (strcmp(aux->getDescripcion(), descripcion) == 0)
+                return aux;
+
+            aux = aux->getSgte();
+        } while (aux != getCab());
+    }
+
+
+    return nullptr;
+}
+
 
 void ListaCategorias::agregarDespuesDe(Categoria *pnueva, Categoria *ref) {
 

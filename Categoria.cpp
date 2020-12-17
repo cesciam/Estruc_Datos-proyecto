@@ -17,7 +17,8 @@ Categoria::~Categoria(){}
 Categoria::Categoria(char pdescripcion[50]){
 
     strcpy_s(this->descripcion, pdescripcion);
-    
+    this->sgte = nullptr;
+    this->ante = nullptr;
 }
 
 char * Categoria::getDescripcion(){

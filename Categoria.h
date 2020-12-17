@@ -22,5 +22,7 @@ public:
     void setAnte(Categoria * categoria);
     void setSgte(Categoria * categoria);
 
+    
+
 #pragma endregion
 };

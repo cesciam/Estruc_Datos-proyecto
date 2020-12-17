@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClCompile Include="Articulo.cpp" />
     <ClCompile Include="Articulos.cpp" />
+    <ClCompile Include="ArticulosYCategorias.cpp" />
+    <ClCompile Include="ArticuloYCategoria.cpp" />
     <ClCompile Include="Categoria.cpp" />
     <ClCompile Include="ListaCategorias.cpp" />
     <ClCompile Include="Proyecto.cpp" />
@@ -148,6 +150,8 @@
   <ItemGroup>
     <ClInclude Include="Articulo.h" />
     <ClInclude Include="Articulos.h" />
+    <ClInclude Include="ArticulosYCategorias.h" />
+    <ClInclude Include="ArticuloYCategoria.h" />
     <ClInclude Include="Categoria.h" />
     <ClInclude Include="ListaCategorias.h" />
   </ItemGroup>

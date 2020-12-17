@@ -32,9 +32,11 @@ public:
     Categoria* dirAnterior(Categoria *x);
     Categoria* dirNodo(Categoria *ref);
 
-    void agregarArticuloACategoria(std::string, std::string);
-    void desplegarArticulosCategoria(std::string);
+    //void agregarArticuloACategoria(std::string, std::string);
+    //void desplegarArticulosCategoria(std::string);
 
+
+    Categoria* verificarCat(char descripcion[50]);
 
 };
 

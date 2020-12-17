@@ -1,12 +1,15 @@
-// Proyecto.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 #include "Articulo.h"
 #include "Articulos.h"
+#include <string>
 #include "Categoria.h"
 #include "ListaCategorias.h"
 
+using namespace std;
+
+
+#pragma region Funciones Articulos
 Articulos* articulos = new Articulos();
 ListaCategorias* ListaCat = new ListaCategorias();
 
@@ -16,7 +19,10 @@ using namespace std;
 Articulo* verificarCod(int tipo) {
 	int codigo;
 	string tipoOperac = tipo == 1 ? "editar" : "eliminar";
-	cout << "Ingrese el codigo del articulo que desea " << tipoOperac  <<": " << endl;
+	if (tipo == 3) {
+		tipoOperac = "buscar";
+	}
+	cout << "Ingrese el codigo del articulo que desea " << tipoOperac << ": " << endl;
 	cin >> codigo;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -49,9 +55,9 @@ bool agregarArticulo() {
 		cout << "El codigo del articulo deben ser solo numeros mayores a 0. " << endl;
 		return false;
 	}
-		
 
-	cout << "Ingrese la descripcion del nuevo articulo: "<< endl;
+
+	cout << "Ingrese la descripcion del nuevo articulo: " << endl;
 	cin.get(descripcion, sizeof(descripcion));
 
 	cout << "Ingrese el precio del nuevo articulo: " << endl;
@@ -64,7 +70,7 @@ bool agregarArticulo() {
 		return false;
 	}
 
-	cout << "Ingrese la cantidad en numeros de "<< descripcion << " en bodega: " << endl;
+	cout << "Ingrese la cantidad en numeros de " << descripcion << " en bodega: " << endl;
 	cin >> cantidad;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -78,25 +84,31 @@ bool modificarArticulo() {
 	char descripcion[50];
 	int precio;
 
-	Articulo* modificado = verificarCod(1);
-	if (modificado == nullptr)
-		return false;
+	if (!articulos->esVacia()) {
+		Articulo* modificado = verificarCod(1);
+		if (modificado == nullptr)
+			return false;
 
-	cout << "Ingrese la nueva descripcion del articulo: " << endl;
-	cin.get(descripcion, sizeof(descripcion));
+		cout << "Ingrese la nueva descripcion del articulo: " << endl;
+		cin.get(descripcion, sizeof(descripcion));
 
-	cout << "Ingrese el nuevo precio del articulo: " << endl;
-	cin >> precio;
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-
-	modificado->setDescripcion(descripcion);
-	modificado->setPrecio(precio);
+		cout << "Ingrese el nuevo precio del articulo: " << endl;
+		cin >> precio;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
-	articulos->modificar(modificado);
+		modificado->setDescripcion(descripcion);
+		modificado->setPrecio(precio);
 
-	modificado->mostrar();
+
+		articulos->modificar(modificado);
+
+		modificado->mostrar();
+	}
+	else
+	{
+		cout << "No hay articulos registrados." << endl;
+	}
 
 	return true;
 }
@@ -104,29 +116,41 @@ bool modificarArticulo() {
 bool modificarExistencia() {
 	int cantidad;
 
-	Articulo* modificado = verificarCod(1);
-	if (modificado == nullptr)
-		return false;
+	if (!articulos->esVacia()) {
+		Articulo* modificado = verificarCod(1);
+		if (modificado == nullptr)
+			return false;
 
-	cout << "Ingrese la nueva cantidad (en numeros) de " << modificado->getDescripcion() << " en bodega: " << endl;
-	cin >> cantidad;
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Ingrese la nueva cantidad (en numeros) de " << modificado->getDescripcion() << " en bodega: " << endl;
+		cin >> cantidad;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	modificado->setCantidad(cantidad);
+		modificado->setCantidad(cantidad);
 
-	modificado->mostrar();
+		modificado->mostrar();
+	}
+	else
+	{
+		cout << "No hay articulos registrados." << endl;
+	}
 	return true;
 }
 
 bool eliminarArticulo() {
-	Articulo* modificado = verificarCod(2);
-	if (modificado == nullptr)
-		return false;
+	if (!articulos->esVacia()) {
+		Articulo* modificado = verificarCod(2);
+		if (modificado == nullptr)
+			return false;
 
-	articulos->eliminar(modificado);
+		articulos->eliminar(modificado);
 
 
-	articulos->DesplegarArticulo();
+		articulos->DesplegarArticulo();
+	}
+	else
+	{
+		cout << "No hay articulos registrados." << endl;
+	}
 	return true;
 }
 
@@ -134,34 +158,273 @@ void actualizarPreciosPorcentual() {
 	int porcentaje;
 	int signo;
 
-	
-	cout << "Desea sumar o restar el porcentaje?" << endl;
-	cout << "1. Sumar" << endl;
-	cout << "2. Restar" << endl;
-	cin >> signo;
+
+	if (!articulos->esVacia()) {
+		cout << "Desea sumar o restar el porcentaje?" << endl;
+		cout << "1. Sumar" << endl;
+		cout << "2. Restar" << endl;
+		cin >> signo;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		if (signo != 1 && signo != 2) {
+			cout << "Opciï¿½n incorrecta. Por favor ingrese (1) o (2)." << endl;
+			return;
+		}
+
+		cout << "Ingrese el porcentaje a aplicar: " << endl;
+		cin >> porcentaje;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		if (porcentaje == 0 || porcentaje < 0) {
+			cout << "El codigo del articulo deben ser solo numeros mayores a 0. " << endl;
+			return;
+		}
+
+		articulos->actualizarPrecios(signo, porcentaje);
+
+		articulos->DesplegarArticulo();
+	}
+	else
+	{
+		cout << "No hay articulos registrados." << endl;
+	}
+}
+
+Articulo* verificarNombre() {
+	char nombre[50];
+	cout << "Ingrese el codigo del articulo que desea buscar:"  << ": " << endl;
+	cin >> nombre;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	if (signo != 1 && signo != 2) {
-		cout << "Opción incorrecta. Por favor ingrese (1) o (2)." << endl;
-		return;
+
+	Articulo* articulo = articulos->existeArticulo(nombre);
+
+	if (articulo == nullptr) {
+		cout << "El articulo no se encuentra registrado." << endl;
+		return nullptr;
 	}
 
-	cout << "Ingrese el porcentaje a aplicar: " << endl;
-	cin >> porcentaje;
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	return articulo;
+}
 
-	if (porcentaje == 0 || porcentaje < 0) {
-		cout << "El codigo del articulo deben ser solo numeros mayores a 0. " << endl;
-		return;
-	}
+#pragma endregion
 
-	articulos->actualizarPrecios(signo, porcentaje);
+#pragma region Menus
 
-	articulos->DesplegarArticulo();
+void menuUsuario() {
+	int opcion;
+
+	do {
+		cout << "******************************* " << endl;
+		cout << "***Menu usuario************** " << endl;
+		cout << "1. Buscar articulo. " << endl;
+		cout << "2. Ver articulos por categoria. " << endl;
+		cout << "3. Salir " << endl;
+		cout << "Ingrese su opcion: " << endl;
+		cin >> opcion;
+
+		switch (opcion)
+		{
+		case 1: {
+			Articulo* articulo = verificarNombre();
+			if (articulo != nullptr) {
+				articulo->mostrarEstat();
+			}
+			break;
+		}
+
+		case 2: {
+			cout << "Cooming soon... " << endl;
+			//Ingrese nombre de la categoria
+			// buscar categoria por nombre
+			// luego buscar en multilista, creo lol
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	} while (opcion != 3);
+
+}
+
+void menuArticulos() {
+	int opcion;
+	do {
+		cout << "******************************* " << endl;
+		cout << "***Menu articulos************** " << endl;
+		cout << "1. Agregar articulo. " << endl;
+		cout << "2. Modificar articulo. " << endl;
+		cout << "3. Modificar existencia. " << endl;
+		cout << "4. Eliminar articulo. " << endl;
+		cout << "5. Desplegar articulos. " << endl;
+		cout << "6. Actualizacion automatica de precios. " << endl;
+
+		cout << "7. Salir. " << endl;
+		cout << "Ingrese su opcion: " << endl;
+		cin >> opcion;
+
+		switch (opcion)
+		{
+		case 1: {
+			agregarArticulo();
+			break;
+		}
+		case 2: {
+			modificarArticulo();
+			break;
+		}
+		case 3: {
+			modificarExistencia();
+			break;
+		}
+		case 4: {
+			eliminarArticulo();
+			break;
+		}
+		case 5: {
+			int forma;
+			cout << "Desea imprimir de forma descendente?" << endl;
+			cout << "1. Si" << endl;
+			cout << "1. No" << endl;
+			cin >> forma;
+			if (forma == 2)
+				articulos->DesplegarArticulo();
+			else
+				articulos->imprimirDescendente();
+			break;
+		}
+		case 6: {
+			actualizarPreciosPorcentual();
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	} while (opcion != 7);
+}
+void menuReportes() {
+	int opcion;
+
+	do {
+		cout << "1. Precio total del inventario " << endl;
+		cout << "2. Cantidad de articulos existencia 0. " << endl;
+		cout << "3. Lista de articulos agotados. " << endl;
+		cout << "4. Lista de articulos no agotados. " << endl;
+		cout << "5. Lista de articulos detallado " << endl;
+		cout << "6. Lista de categorias." << endl;
+		cout << "7. Lista de articulos por categoria." << endl;
+		cout << "8. Salir." << endl;
+		cout << "Ingrese su opcion: " << endl;
+		cin >> opcion;
+
+		switch (opcion)
+		{
+		case 1: {
+			cout << "El precio total del inventario es de " <<articulos->totalInventario() << endl;
+			break;
+		}
+
+		case 2: {
+			cout << "La cantidad de articulos agotados son: "<< articulos->productosAgotados(false) << endl;
+			break;
+		}
+		case 3: {
+			articulos->productosAgotados(true);
+			break;
+		}
+		case 4: {
+			articulos->inventarioDisponible();
+		}
+		case 5: {
+			articulos->DesplegarArticulo();
+		}
+		case 6:
+			cout << "Coming soon" << endl;
+		case 7: {
+			cout << "Coming soon" << endl;
+		}
+		default:
+			break;
+		}
+
+	} while (opcion != 8);
+}
+void menuAdministrador() {
+	int opcion;
+
+	do {
+		cout << "1. Articulos. " << endl;
+		cout << "2. Categorias. " << endl;
+		cout << "3. Reportes y estadisticas. " << endl;
+		cout << "4. Salir. " << endl;
+		cout << "Ingrese su opcion: " << endl;
+		cin >> opcion;
+
+		switch (opcion)
+		{
+		case 1: {
+			menuArticulos();
+			break;
+		}
+
+		case 2: {
+			cout << "Cooming soon... " << endl;
+			break;
+		}
+		case 3: {
+			menuReportes();
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	} while (opcion != 4);
 }
 
 
-//CATEGORIAS
+#pragma endregion
+
+
+int main()
+{
+	int opcion;
+
+
+	do {
+		cout << "******************************* " << endl;
+		cout << "***Menu principal************** " << endl;
+		cout << "1. Ingresar como administrador. "<< endl;
+		cout << "2. Ingresar como usuario. " << endl;
+		cout << "3. Salir. " << endl;
+		cout << "Ingrese su opcion: " << endl;
+		cin >> opcion;
+
+		switch (opcion)
+		{
+			case 1: {
+				menuAdministrador();
+				break;
+			}
+
+			case 2: {
+				menuUsuario();
+				break;
+			}
+
+			default:
+				break;
+		}
+
+	} while (opcion != 3);
+
+
+}
 
 void menuCategorias() {
 	int opcion = -1;
@@ -173,7 +436,7 @@ void menuCategorias() {
 		cout << "3. Agregar un articulo a una categoria. " << endl;
 		cout << "4. Eliminar una categoria. " << endl;
 		cout << "5. Desplegar la lista de categorias. " << endl;
-		cout << "6. Desplegar los articulos de una categoría en específica. " << endl;
+		cout << "6. Desplegar los articulos de una categorÃ­a en especÃ­fica. " << endl;
 		cout << "7. Salir. " << endl;
 		cout << "Ingrese su opcion: " << endl;
 		cin >> opcion;
@@ -185,11 +448,11 @@ void menuCategorias() {
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			cout << "*********** " << endl;
-			cout << "**Agregar una categoría***** " << endl;
+			cout << "**Agregar una categorÃ­a***** " << endl;
 			cout << "*********** " << endl;
 			cout << "Ingrese la descripcion de la nueva categoria: " << endl;
 			cin.get(descripcion, sizeof(descripcion));
-			
+
 
 			Categoria* categ = new Categoria(descripcion);
 
@@ -204,7 +467,7 @@ void menuCategorias() {
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			cout << "*********** " << endl;
-			cout << "**Modificar una categoría***** " << endl;
+			cout << "**Modificar una categorÃ­a***** " << endl;
 			cout << "*********** " << endl;
 			cout << "Ingrese la descripcion que desea modificar: " << endl;
 			cin.get(ref, sizeof(ref));
@@ -229,7 +492,7 @@ void menuCategorias() {
 			break;
 		}
 		case 4: { //DA ERROR, PENDIENTE DE SOLUCIONAR
-			
+
 			char eliminar[50];
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -247,26 +510,26 @@ void menuCategorias() {
 			break;
 
 		}
-		case 5: { 
+		case 5: {
 			char descripcion[50];
 
 			cout << "*********** " << endl;
 			cout << "**Desplegar la lista de categorias***** " << endl;
 			cout << "*********** " << endl;
-			
+
 			ListaCat->desplegarListaCategorias();
-			
+
 			break;
 		}
 		case 6: { //PENDIENTE DE HACER
-	
+
 			cout << "*********** " << endl;
-			cout << "**Desplegar los articulos de una categoría en específica***** " << endl;
+			cout << "**Desplegar los articulos de una categorÃ­a en especÃ­fica***** " << endl;
 			cout << "*********** " << endl;
-			cout << "Ingrese la categoría que desea desplegar: " << endl;
+			cout << "Ingrese la categorÃ­a que desea desplegar: " << endl;
 			cout << "PENDIENTE DE HACER " << endl;
-		
-			
+
+
 			break;
 		}
 
@@ -275,35 +538,4 @@ void menuCategorias() {
 		}
 
 	} while (opcion != 7);
-}
-
-
-int main()
-{
-
-	menuCategorias();
-	/*
-	ListaCategorias* ListaCat = new ListaCategorias();
-	
-
-
-		char descripcion[50] = "Arboles de navidad";
-		Categoria* categoria = new Categoria(descripcion);
-		ListaCat->agregarCategoria(categoria);
-		char descripcion1[50] = "Adornos de navidad";
-		categoria = new Categoria(descripcion1);
-		ListaCat->agregarCategoria(categoria);
-		char descripcion2[50] = "Regalos de navidad";
-		categoria = new Categoria(descripcion2);
-		ListaCat->agregarCategoria(categoria);
-		char descripcion3[50] = "Bufandas de navidad";
-		categoria = new Categoria(descripcion3);
-		ListaCat->agregarCategoria(categoria);
-		char descripcion4[50] = "Ropa de navidad";
-		categoria = new Categoria(descripcion4);
-		ListaCat->agregarCategoria(categoria);
-		
-		ListaCat->desplegarListaCategorias();
-	
-	*/
 }

@@ -4,8 +4,9 @@ class Articulo
 {
 private:
 	int codigo;
-	std::string descripcion;
-	int precio;
+	/*std::string descripcion;*/
+	char descripcion[50];
+	double precio;
 	std::string estatus;
 	int cantidad;
 
@@ -16,34 +17,31 @@ private:
 
 public:
 	Articulo();
-	Articulo(int codigo, std::string descripcion, int precio, int cantidad);
+	Articulo(int codigo, char descripcion[50], double precio, int cantidad);
 	~Articulo();
 
 	#pragma region Gets and sets
 	int getCodigo();
-	std::string getDescripcion();
-	int getPrecio();
+	char * getDescripcion();
+	double getPrecio();
 	std::string getEstatus();
 	int getCantidad();
 	Articulo* getSgte();
 	Articulo* getAnte();
 
 	void setCodigo(int codigo);
-	void setDescripcion(std::string descripcion);
-	void setPrecio(int precio);
+	void setDescripcion(char descripcion[50]);
+	void setPrecio(double precio);
 	void setCantidad(int cantidad);
 	void setSgte(Articulo* articulo);
 	void setAnte(Articulo* articulo);
+
+	void mostrar();
+	void mostrarEstat();
 
 #pragma endregion
 	
 
 
 };
-
-
-
-
-
- 
 

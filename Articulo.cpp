@@ -3,7 +3,7 @@
 Articulo::Articulo()
 {
 	this->codigo = NULL;
-	this->descripcion = "";
+	strcpy_s(descripcion, "");
 	this->precio = NULL;
 	this->cantidad = NULL;
 
@@ -11,10 +11,10 @@ Articulo::Articulo()
 	this->ante = nullptr;
 }
 
-Articulo::Articulo(int codigo, std::string descripcion, int precio,  int cantidad)
+Articulo::Articulo(int codigo, char descripcion[50], double precio,  int cantidad)
 {
 	this->codigo = codigo;
-	this->descripcion = descripcion;
+	strcpy_s(this->descripcion, descripcion);
 	this->precio = precio;
 	this->cantidad = cantidad;
 
@@ -30,12 +30,12 @@ int Articulo::getCodigo()
 	return this->codigo;
 }
 
-std::string Articulo::getDescripcion()
+char * Articulo::getDescripcion()
 {
 	return this->descripcion;
 }
 
-int Articulo::getPrecio()
+double Articulo::getPrecio()
 {
 	return this->precio;
 }
@@ -65,12 +65,12 @@ void Articulo::setCodigo(int codigo)
 	this->codigo = codigo;
 }
 
-void Articulo::setDescripcion(std::string descripcion)
+void Articulo::setDescripcion(char descripcion[50])
 {
-	this->descripcion = descripcion;
+	strcpy_s(this->descripcion, descripcion);
 }
 
-void Articulo::setPrecio(int precio)
+void Articulo::setPrecio(double precio)
 {
 	this->precio = precio;
 }
@@ -90,4 +90,27 @@ void Articulo::setSgte(Articulo* articulo)
 void Articulo::setAnte(Articulo* articulo)
 {
 	this->ante = articulo;
+}
+
+void Articulo::mostrar()
+{
+	cout << "***************************************** " << endl;
+	cout << "Codigo: " << getCodigo() <<endl;
+	cout << "Descripcion: " << getDescripcion() <<endl;
+	cout << "Precio: " << getPrecio() << endl;
+	cout << "Cantidad: " <<getCantidad() << endl;
+	cout << "Estatus: " << getEstatus() << endl;
+	cout << "***************************************** " <<endl;
+}
+
+void Articulo::mostrarEstat()
+{
+	cout << "***************************************** " << endl;
+	cout << "Codigo: " << getCodigo() << endl;
+	cout << "Descripcion: " << getDescripcion() << endl;
+	cout << "Precio: " << getPrecio() << endl;
+	cout << "Cantidad: " << getCantidad() << endl;
+	if(getCantidad() == 0)
+		cout << "Estatus: " << getEstatus() << endl;
+	cout << "***************************************** " << endl;
 }

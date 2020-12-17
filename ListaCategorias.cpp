@@ -111,15 +111,24 @@ void ListaCategorias::agregarDespuesDe(Categoria *pnueva, Categoria *ref) {
 void ListaCategorias::desligar(Categoria* paux) {
     Categoria* quitar = paux;
     Categoria* ult = dirUltimo();
+    if (getLargo() == 1) {
+        setLargo(getLargo() - 1);
+        return;
+    }
+
     if (quitar == getCab()) { // Es la cabeza
         quitar->getSgte()->setAnte(NULL);
+        setCab(quitar->getSgte());
+        setLargo(getLargo() - 1);
     }
      else if (quitar != ult){
         quitar->getAnte()->setSgte(quitar->getSgte());
         quitar->getSgte()->setAnte(quitar->getAnte());
+        setLargo(getLargo() - 1);
 
         } else {
-        quitar->getAnte()->setAnte(NULL);
+        quitar->getAnte()->setAnte(nullptr);
+        setLargo(getLargo() - 1);
         }
 }
 
@@ -170,9 +179,11 @@ bool ListaCategorias::agregarCategoria(Categoria *pnueva) {
     return false;
 }
 
-bool ListaCategorias::modificarCategoria(Categoria *ref, Categoria* modificado) {
+bool ListaCategorias::modificarCategoria(Categoria* modificado) {
+    if (getLargo() == 1)
+        return true;
 
-    desligar(ref);
+    desligar(modificado);
     return agregarCategoria(modificado);
 }
 
@@ -199,11 +210,15 @@ void ListaCategorias::desplegarListaCategorias() {
         while (aux!= NULL)
         {
 
-            std::cout << aux->getDescripcion() << std::endl;
+            std::cout << "Nombre categoria: "<< aux->getDescripcion() << std::endl;
             aux = aux->getSgte();
         }
         cout << "** =======Fin lista categorias======= **" << endl;
         cout << "** ================================== **" << endl;
+    }
+    else
+    {
+        cout << "** No hay categorias registradas **" << endl;
     }
 }
 

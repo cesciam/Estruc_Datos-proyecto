@@ -313,7 +313,7 @@ void menuCategorias() {
 		cout << "3. Agregar un articulo a una categoria. " << endl;
 		cout << "4. Eliminar una categoria. " << endl;
 		cout << "5. Desplegar la lista de categorias. " << endl;
-		cout << "6. Desplegar los articulos de una categoría en específica. " << endl;
+		cout << "6. Desplegar los articulos de una categoria en especifica. " << endl;
 		cout << "7. Salir. " << endl;
 		cout << "Ingrese su opcion: " << endl;
 		cin >> opcion;
@@ -325,7 +325,7 @@ void menuCategorias() {
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			cout << "*********** " << endl;
-			cout << "**Agregar una categoría***** " << endl;
+			cout << "**Agregar una categoria***** " << endl;
 			cout << "*********** " << endl;
 			cout << "Ingrese la descripcion de la nueva categoria: " << endl;
 			cin.get(descripcion, sizeof(descripcion));
@@ -337,24 +337,29 @@ void menuCategorias() {
 			break;
 		}
 
-		case 2: { //DA ERROR, PENDIENTE DE SOLUCIONAR
-			char ref[50];
+		case 2: { 
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			char modificar[50];
+			char descripcion[50];
+			char nuevaDescrip[50];
+
+			cout << "Ingrese el nombre de la categoria que desea modificar: " << endl;
+			cin.get(descripcion, sizeof(descripcion));
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-			cout << "*********** " << endl;
-			cout << "**Modificar una categoría***** " << endl;
-			cout << "*********** " << endl;
-			cout << "Ingrese la descripcion que desea modificar: " << endl;
-			cin.get(ref, sizeof(ref));
-			cout << "Ingrese la descripcion correcta: " << endl;
-			cin.get(modificar, sizeof(modificar));
+			Categoria* cat = ListaCat->verificarCat(descripcion);
 
+			if (cat == nullptr) {
+				cout << "No existe una categoria registrada con ese nombre." << endl;
+				break;;
+			}
+			cout << "Ingrese el nuevo nombre de la categoria: " << endl;
+			cin.get(nuevaDescrip, sizeof(nuevaDescrip));
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-			//Categoria* categ = new Categoria(ref, modificar);
+			cat->setDescripcion(nuevaDescrip);
 
-			//ListaCat->modificarCategoria(categ);
+			ListaCat->modificarCategoria(cat);
+
 			break;
 		}
 
@@ -362,7 +367,7 @@ void menuCategorias() {
 			articulosCategoria();
 			break;
 		}
-		case 4: { //DA ERROR, PENDIENTE DE SOLUCIONAR
+		case 4: {
 
 			char eliminar[50];
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -375,9 +380,14 @@ void menuCategorias() {
 			cin.get(eliminar, sizeof(eliminar));
 
 
-			//Categoria* categ = new Categoria(eliminar);
+			Categoria* cat = ListaCat->verificarCat(eliminar);
 
-			//ListaCat->eliminarCategoria(categ);
+			if (cat == nullptr) {
+				cout << "No existe una categoria registrada con ese nombre." << endl;
+				break;
+			}
+
+			ListaCat->eliminarCategoria(cat);
 			break;
 
 		}
@@ -441,7 +451,7 @@ void menuArticulos() {
 			int forma;
 			cout << "Desea imprimir de forma descendente?" << endl;
 			cout << "1. Si" << endl;
-			cout << "1. No" << endl;
+			cout << "2. No" << endl;
 			cin >> forma;
 			if (forma == 2)
 				articulos->DesplegarArticulo();

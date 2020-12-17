@@ -24,7 +24,7 @@ public:
 
 
     bool agregarCategoria(Categoria *pnuevo);
-    bool modificarCategoria(Categoria* ref, Categoria* modificado);
+    bool modificarCategoria(Categoria* modificado);
     void eliminarCategoria(Categoria* peliminar);
     void desplegarListaCategorias();
 

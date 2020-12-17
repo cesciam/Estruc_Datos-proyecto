@@ -177,10 +177,12 @@ void Articulos::desligar(Articulo* paux)
 		aux->getAnte()->setSgte(aux->getSgte());
 
 		setCab(aux->getSgte());
+		largo--;
 	}
 	else { // Es el ultimo
 		quitar->getAnte()->setSgte(quitar->getSgte());
 		quitar->getSgte()->setAnte(quitar->getAnte());
+		largo--;
 	}
 
 	
@@ -215,6 +217,7 @@ void Articulos::actualizarPrecios(int signo, int porcentaje)
 			double precio = (int)aux->getPrecio();
 			double nuevoPrecio = precio - precio * (porc / 100);
 			aux->setPrecio(nuevoPrecio);
+			aux = aux->getSgte();
 		} while (aux != getCab());
 
 	}
